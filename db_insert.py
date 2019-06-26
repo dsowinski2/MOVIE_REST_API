@@ -5,12 +5,7 @@ import pandas as pd
 from zipfile import ZipFile
 from sqlalchemy import create_engine
 import re
-from db import db
 
-from db import movies, links, tags, ratings
-
-db.drop_all()
-db.create_all()
 engine = create_engine('sqlite:///site.db')
 
 def get_filename(filename):
@@ -48,10 +43,6 @@ def get_dataset(file_url):
                 data['year'] = get_year(data['title'])
             data.to_sql(get_filename(file_name), con=engine, index=False, if_exists='replace')
 
-
-            
-
-    #db.session.commit()
     return 
 
 '''
