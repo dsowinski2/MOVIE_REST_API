@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<table border="5">
+		
+	
+		{% if posts.shape[1] == 2  %}
+		<h1>Movies</h1>
+			<tr>		
+				<td>Title</td>
+				<td>geners</td>
+			</tr>
+		{% for index,row in posts.iterrows() %}
+			<tr>
+				<td>{{row['title']}}</td>
+				<td>{{row['genres']}}</td>
+			</tr>
+		{% endfor %}
+		
+		{% elif posts.shape[1] == 6 %}
+		{% if posts['title'][0] == None %}
+		<h1>No movie with this ID</h1>
+		{% else %}
+		<h1>MovieId: {{posts['movieId'][0]}}</h1>
+			<tr>		
+				<td>Title</td>
+				<td>Score</td>
+				<td>Geners</td>
+				<td>Link</td>
+				<td>Year</td>
+			</tr>
+		{% for index,row in posts.iterrows() %}
+			<tr>
+				<td>{{row['title']}}</td>
+				<td>{{row['rating']}}</td>
+				<td>{{row['genres']}}</td>
+				<td>{{row['imdbId']}}</td>
+				<td>{{row['year']}}</td>
+			</tr>
+		{% endfor %}
+		{% endif %}
+		{% elif posts.shape[1] == 5 %}
+		<h1>Tags: {{posts['tag1'][1]}}, {{posts['tag2'][1]}}</h1>
+			<tr>		
+				<td>Title</td>
+				<td>genres</td>
+
+			</tr>
+		{% for index,row in posts.iterrows() %}
+			<tr>
+				<td>{{row['title']}}</td>
+				<td>{{row['genres']}}</td>
+				
+
+			</tr>
+		{% endfor %}
+		{% else %}
+			<h1>Tag: {{posts['tag'][1]}}</h1>
+
+			<tr>		
+				<td>Title</td>
+				<td>Genres</td>
+
+			</tr>
+			{% for index,row in posts.iterrows() %}
+				<tr>
+					<td>{{row['title']}}</td>
+					<td>{{row['genres']}}</td>
+				</tr>
+			{% endfor %}
+
+		{% endif %}
+
+		
+	</table>
+</body>
+</html>
