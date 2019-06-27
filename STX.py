@@ -12,7 +12,8 @@ from zipfile import ZipFile
 from sqlalchemy import create_engine, text
 
 import db_insert
-import db
+from db import db
+db.create_all()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
