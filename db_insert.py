@@ -11,7 +11,7 @@ from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
 db.drop_all()
 db.create_all()
-#odo('accounts.csv', 'sqlite:///site.db::')
+
 
 def get_filename(filename):
     filename = filename.split('/')
@@ -41,8 +41,6 @@ def get_dataset(file_url):
     zip_names.pop(0)
     for file_name in zip_names:
         if '.csv' in file_name:
-            print(file_name)
-            print(get_filename(file_name))
             zipfile.open(file_name)
             data = pd.read_csv(zipfile.open(file_name), sep=',')
             if get_filename(file_name) == 'movies':
