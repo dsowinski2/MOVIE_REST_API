@@ -12,7 +12,7 @@ from zipfile import ZipFile
 from sqlalchemy import create_engine, text
 
 import db_insert
-
+import db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -100,7 +100,7 @@ def movie(movieId):
     return render_template('body.html' ,posts=data)
 @app.route('/db', methods=['POST'])
 def databaseb():
-
+    db.create_all()
     url = 'http://files.grouplens.org/datasets/movielens/'
     database = request.get_json(force=True)['source']
     url = url + database + '.zip'
