@@ -9,8 +9,8 @@ from odo import odo
 
 from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
-#db.drop_all()
-
+db.drop_all()
+db.create_all()
 
 
 def get_filename(filename):
@@ -34,7 +34,7 @@ def get_year(data):
 
 
 def get_dataset(file_url):
-    db.create_all()
+
     url = urllib.request.urlopen(file_url)
     zipfile = ZipFile(BytesIO(url.read()))
     zip_names = zipfile.namelist()
