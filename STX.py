@@ -100,13 +100,12 @@ def movie(movieId):
     return render_template('body.html' ,posts=data)
 @app.route('/db', methods=['POST'])
 def databaseb():
-    try:
-        url = 'http://files.grouplens.org/datasets/movielens/'
-        database = request.get_json(force=True)['source']
-        url = url + database + '.zip'
-        db_insert.get_dataset(url)
-        return "Database updated succesfully"
-    except:
-        return "Failed to update database"
+
+    url = 'http://files.grouplens.org/datasets/movielens/'
+    database = request.get_json(force=True)['source']
+    url = url + database + '.zip'
+    db_insert.get_dataset(url)
+    return "Database updated succesfully"
+
 if __name__ == '__main__':
    app.run(debug = True)
