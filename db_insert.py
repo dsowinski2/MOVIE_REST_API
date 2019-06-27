@@ -49,7 +49,7 @@ def get_dataset(file_url):
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
             if get_filename(file_name) == 'ratings':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
-            destination = 'site.db::' + get_filename(file_name)
+            destination = 'sqlite:///site.db::' + get_filename(file_name)
             print("maka")
             odo(data, destination)
 
