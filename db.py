@@ -13,6 +13,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 
+class ratings(db.Model):
+    __tablename__ = 'ratings'
+    index = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, nullable=False)
+    movieId = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Float, nullable=False)
+    timestamp = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"ratings('{self.movieId}','{self.rating}')"
+
+
 class movies(db.Model):
     __tablename__ = 'movies'
     movieId = db.Column(db.Integer, primary_key=True)
@@ -46,13 +58,4 @@ class tags(db.Model):
 
     def __repr__(self):
         return f"tags('{self.movieId}','{self.tag}')"
-class ratings(db.Model):
-    __tablename__ = 'ratings'
-    index = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, nullable=False)
-    movieId = db.Column(db.Integer, nullable=False)
-    rating = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.Integer, nullable=False)
 
-    def __repr__(self):
-        return f"ratings('{self.movieId}','{self.rating}')"

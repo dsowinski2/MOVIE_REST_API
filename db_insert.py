@@ -42,12 +42,16 @@ def get_dataset(file_url):
             print("maka0")
             if get_filename(file_name) == 'movies':
                 data['year'] = get_year(data['title'])
+                print("movies")
             if get_filename(file_name) == 'links':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                print("links")
             if get_filename(file_name) == 'tags':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                print("tags")
             if get_filename(file_name) == 'ratings':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                print("ratings")
             destination = 'sqlite:///site.db::' + get_filename(file_name)
             print(destination)
             print("maka")
