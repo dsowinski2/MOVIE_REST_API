@@ -87,6 +87,8 @@ def movies():
 
     else:
         data = pd.read_sql_query(ALL_MOVIES,engine)
+        print(data)
+        print("movies")
 
     return render_template('body.html' ,posts=data)
 
