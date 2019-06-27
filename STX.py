@@ -100,7 +100,6 @@ def movie(movieId):
     return render_template('body.html' ,posts=data)
 @app.route('/db', methods=['POST'])
 def databaseb():
-    db.create_all()
     url = 'http://files.grouplens.org/datasets/movielens/'
     database = request.get_json(force=True)['source']
     url = url + database + '.zip'
