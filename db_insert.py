@@ -43,6 +43,7 @@ def get_dataset(file_url):
         if '.csv' in file_name:
             zipfile.open(file_name)
             data = pd.read_csv(zipfile.open(file_name), sep=',')
+            print("maka0")
             if get_filename(file_name) == 'movies':
                 data['year'] = get_year(data['title'])
             if get_filename(file_name) == 'links':
@@ -52,6 +53,7 @@ def get_dataset(file_url):
             if get_filename(file_name) == 'ratings':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
             destination = 'sqlite:///site.db::' + get_filename(file_name)
+            print("maka")
             odo(data, destination)
 
     return 
