@@ -55,6 +55,7 @@ def get_dataset(file_url):
             destination = 'sqlite:///site.db::' + get_filename(file_name)
             print("maka")
             odo(data, destination)
+            print("maka3")
 
     return 
 
