@@ -10,7 +10,7 @@ from odo import odo
 from db import db#, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
 db.drop_all()
-db.create_all()
+
 
 
 def get_filename(filename):
