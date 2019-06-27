@@ -46,6 +46,7 @@ def get_dataset(file_url):
             if get_filename(file_name) == 'links':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
                 print("links")
+                print(data)
             if get_filename(file_name) == 'tags':
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
                 print("tags")
