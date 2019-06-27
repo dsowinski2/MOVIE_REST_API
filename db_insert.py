@@ -5,8 +5,13 @@ import pandas as pd
 from zipfile import ZipFile
 from sqlalchemy import create_engine
 import re
+from odo import odo
 
+from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
+db.drop_all()
+db.create_all()
+#odo('accounts.csv', 'sqlite:///site.db::')
 
 def get_filename(filename):
     filename = filename.split('/')
@@ -23,9 +28,9 @@ def get_year(data):
             date.append(0)
     return date
 
-def Load_Data(file_name):
 
-    return data.tolist()
+
+
 
 
 def get_dataset(file_url):
@@ -37,11 +42,19 @@ def get_dataset(file_url):
     for file_name in zip_names:
         if '.csv' in file_name:
             print(file_name)
+            print(get_filename(file_name))
             zipfile.open(file_name)
             data = pd.read_csv(zipfile.open(file_name), sep=',')
             if get_filename(file_name) == 'movies':
                 data['year'] = get_year(data['title'])
-            data.to_sql(get_filename(file_name), con=engine, index=False, if_exists='replace')
+            if get_filename(file_name) == 'links':
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+            if get_filename(file_name) == 'tags':
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+            if get_filename(file_name) == 'ratings':
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+            destination = 'sqlite:///site.db::' + get_filename(file_name)
+            odo(data, destination)
 
     return 
 
