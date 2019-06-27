@@ -98,13 +98,18 @@ def movie(movieId):
     ID.append(movieId)
     data = pd.read_sql_query(SINGLE_MOVIE, engine, params = ID)
     return render_template('body.html' ,posts=data)
+
+
 @app.route('/db', methods=['POST'])
 def databaseb():
-    url = 'http://files.grouplens.org/datasets/movielens/'
-    database = request.get_json(force=True)['source']
-    url = url + database + '.zip'
-    db_insert.get_dataset(url)
-    return "Database updated succesfully"
+    try:
+        url = 'http://files.grouplens.org/datasets/movielens/'
+        database = request.get_json(force=True)['source']
+        url = url + database + '.zip'
+        db_insert.get_dataset(url)
+        return "Database updated succesfully"
+    except:
+        return "Failed to update database"
 
 if __name__ == '__main__':
    app.run(debug = True)
