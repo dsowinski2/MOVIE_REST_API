@@ -51,12 +51,7 @@ def get_dataset(file_url):
                 data['index'] = list(range(1,data['movieId'].shape[0]+1))
             destination = 'sqlite:///site.db::' + get_filename(file_name)
             print("maka")
-            try:
-                odo(data, destination)
-                return "sukces"
-            except:
-                return "fail"
-            print("maka3")
+            odo(data, destination)
 
     return 
 
