@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 import re
 from odo import odo
 
-from db import db#, movies, links, tags, ratings
+from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
 db.drop_all()
 
