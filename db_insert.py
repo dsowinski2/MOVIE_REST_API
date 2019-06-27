@@ -34,7 +34,7 @@ def get_year(data):
 
 
 def get_dataset(file_url):
-    #db.create_all()
+    db.create_all()
     url = urllib.request.urlopen(file_url)
     zipfile = ZipFile(BytesIO(url.read()))
     zip_names = zipfile.namelist()
