@@ -16,56 +16,51 @@ import db_insert
 import Queries
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-engine = create_engine('sqlite:///site.db')
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+engine = create_engine("sqlite:///site.db")
 
 
-@app.route('/movies', methods=['GET'])
+@app.route("/movies", methods=["GET"])
 def movies():
 
-    sort  = Queries.get_sort(request.args.get('sort'))
-    year  = request.args.getlist('year')
-    tag = request.args.getlist('tag')
+    sort = Queries.get_sort(request.args.get("sort"))
+    year = request.args.getlist("year")
+    tag = request.args.getlist("tag")
 
     if tag:
         if len(tag) == 1:
             data = pd.read_sql_query(Queries.ONE_TAG, engine, params=tag)
             if sort:
-                data = pd.read_sql_query(Queries.ONE_TAG+sort, engine, params=tag)
+                data = pd.read_sql_query(Queries.ONE_TAG + sort, engine, params=tag)
         else:
             if sort:
-                data = pd.read_sql_query(Queries.TWO_TAGS+sort, engine, params=tag)
+                data = pd.read_sql_query(Queries.TWO_TAGS + sort, engine, params=tag)
             else:
                 data = pd.read_sql_query(Queries.TWO_TAGS, engine, params=tag)
-
-    elif year:   
-        data = pd.read_sql_query(Queries.GET_PRODUCTION_YEAR, engine, params = year)
-
+    elif year:
+        data = pd.read_sql_query(Queries.GET_PRODUCTION_YEAR, engine, params=year)
     elif sort:
-            data = pd.read_sql_query(Queries.ALL_MOVIES+sort, engine)
-
+        data = pd.read_sql_query(Queries.ALL_MOVIES + sort, engine)
     else:
-        data = pd.read_sql_query(Queries.ALL_MOVIES,engine)
+        data = pd.read_sql_query(Queries.ALL_MOVIES, engine)
+    return render_template("body.html", posts=data)
 
-    return render_template('body.html' ,posts=data)
 
-    
-    
-@app.route('/movies/<int:movieId>', methods=['GET'])
+@app.route("/movies/<int:movieId>", methods=["GET"])
 def movie(movieId):
 
     ID = []
     ID.append(movieId)
-    data = pd.read_sql_query(Queries.SINGLE_MOVIE, engine, params = ID)
-    return render_template('body.html' ,posts=data)
+    data = pd.read_sql_query(Queries.SINGLE_MOVIE, engine, params=ID)
+    return render_template("body.html", posts=data)
 
 
-@app.route('/db', methods=['POST'])
+@app.route("/db", methods=["POST"])
 def databaseb():
     try:
-        url = 'http://files.grouplens.org/datasets/movielens/'
-        database = request.get_json(force=True)['source']
-        url = url + database + '.zip'
+        url = ("http://files.grouplens.org/datasets/movielens/")
+        database = request.get_json(force=True)["source"]
+        url = url + database + ".zip"
         db_insert.get_dataset(url)
         return "Database updated succesfully"
     except:
@@ -74,9 +69,10 @@ def databaseb():
 
 @app.after_request
 def log_the_status_code(response):
-    status= response.status
+    status = response.status
     logging.warning("status: %s" % status)
     return response
 
-if __name__ == '__main__':
-   app.run(debug = True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
