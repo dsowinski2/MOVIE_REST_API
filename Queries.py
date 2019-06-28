@@ -17,12 +17,7 @@ WHERE movies.year == (?)
 ALL_MOVIES = '''
 SELECT title, genres FROM movies
 '''
-SORT_DESC = '''
-SELECT title, genres FROM movies ORDER BY year DESC
-'''
-SORT_ASC = '''
-SELECT title, genres FROM movies ORDER BY year ASC
-'''
+
 SINGLE_MOVIE = '''
 
 SELECT ROUND(AVG(rating),1) as rating, movies.title, movies.genres, movies.year, links.imdbId, movies.movieId

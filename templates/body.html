@@ -43,22 +43,31 @@
 		{% endfor %}
 		{% endif %}
 		{% elif posts.shape[1] == 5 %}
-		<h1>Tags: {{posts['tag1'][1]}}, {{posts['tag2'][1]}}</h1>
-			<tr>		
-				<td>Title</td>
-				<td>genres</td>
+			{% if posts.empty %}
+			<h1>No movies with these tags</h1>
+			{% else %}
+			<h1>Tags: {{posts['tag1'][0]}}, {{posts['tag2'][0]}}</h1>
+				<tr>		
+					<td>Title</td>
+					<td>genres</td>
+				</tr>
+				{% for index,row in posts.iterrows() %}
+				<tr>
+					<td>{{row['title']}}</td>
+					<td>{{row['genres']}}</td>
+				</tr>
 
-			</tr>
-		{% for index,row in posts.iterrows() %}
-			<tr>
-				<td>{{row['title']}}</td>
-				<td>{{row['genres']}}</td>
-				
+			{% endfor %}
+			{% endif %}
 
-			</tr>
-		{% endfor %}
 		{% else %}
-			<h1>Tag: {{posts['tag'][1]}}</h1>
+			{% if posts.empty %}
+
+			<h1>No movies with this tag</h1>
+
+			{% else %}
+
+			<h1>Tag: {{posts['tag'][0]}}</h1>
 
 			<tr>		
 				<td>Title</td>
@@ -71,7 +80,7 @@
 					<td>{{row['genres']}}</td>
 				</tr>
 			{% endfor %}
-
+			{% endif %}
 		{% endif %}
 
 		
