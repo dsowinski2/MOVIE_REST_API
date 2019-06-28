@@ -6,8 +6,6 @@ from zipfile import ZipFile
 from sqlalchemy import create_engine
 import re
 
-#from odo import odo, discover
-#from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
 
 
@@ -44,7 +42,8 @@ def get_dataset(file_url):
 
 
 
-        
+#The presented section populate the database created in a db file with data from CSV files faster, but does not work on Heroku, you can try it locally.
+
 
 '''
 def get_dataset(file_url):
