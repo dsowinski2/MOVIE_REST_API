@@ -5,17 +5,17 @@ import pandas as pd
 from zipfile import ZipFile
 from sqlalchemy import create_engine
 import re
-from odo import odo
 
-from db import db, movies, links, tags, ratings
+#from odo import odo, discover
+#from db import db, movies, links, tags, ratings
 engine = create_engine('sqlite:///site.db')
-db.drop_all()
 
 
 def get_filename(filename):
     filename = filename.split('/')
     filename = filename[1].split('.')
     return filename[0]
+
 
 def get_year(data):
     date = []
@@ -28,37 +28,23 @@ def get_year(data):
     return date
 
 
-
 def get_dataset(file_url):
-
     url = urllib.request.urlopen(file_url)
     zipfile = ZipFile(BytesIO(url.read()))
     zip_names = zipfile.namelist()
     zip_names.pop(0)
     for file_name in zip_names:
         if '.csv' in file_name:
-            zipfile.open(file_name)
+            zipfile.open(file_name) 
             data = pd.read_csv(zipfile.open(file_name), sep=',')
-            print("maka0")
             if get_filename(file_name) == 'movies':
                 data['year'] = get_year(data['title'])
-                print("movies")
-            if get_filename(file_name) == 'links':
-                data['index'] = list(range(1,data['movieId'].shape[0]+1))
-                print("links")
-                print(data)
-            if get_filename(file_name) == 'tags':
-                data['index'] = list(range(1,data['movieId'].shape[0]+1))
-                print("tags")
-            if get_filename(file_name) == 'ratings':
-                data['index'] = list(range(1,data['movieId'].shape[0]+1))
-                print("ratings")
-            destination = 'sqlite:///site.db::' + get_filename(file_name)
-            print(destination)
-            print("maka")
-            odo(data,destination)
+            data.to_sql(get_filename(file_name), con=engine, if_exists='replace')
 
-    return 
+
+
+
+        
 
 '''
 def get_dataset(file_url):
@@ -72,52 +58,24 @@ def get_dataset(file_url):
     zip_names.pop(0)
     for file_name in zip_names:
         if '.csv' in file_name:
-            print(file_name)
-
-
             zipfile.open(file_name) 
             data = pd.read_csv(zipfile.open(file_name), sep=',')
+            destination = 'sqlite:///site.db::' + get_filename(file_name)
             if get_filename(file_name) == 'movies':
                 data['year'] = get_year(data['title'])
-
-
-
-
-            
-
-    db.session.commit()
-    return 
-
-'''
-
-
-
-
-#data.to_sql(get_filename(file_name), con=engine, if_exists='replace', index=False, index_label=[column.key for column in links.__table__.columns] )
-#data.to_sql(get_filename(file_name), con=engine, if_exists='replace', index=False, schema='db')
-
-'''
-userId = row['userId'],
-, timestamp = row['timestamp']
-'''
-
-'''
-                            for index,row in data.iterrows():
-                    movie = movies(movieId = row['movieId'] , title = row['title'], genres = row['genres'], year = row['year'])
-                    db.session.add(movie)
+                dshape = discover(data)
+                movies = odo(data, destination, dshape=dshape)
             elif get_filename(file_name) == 'tags':
-                for index,row in data.iterrows():
-                    tag = tags( userId = row['userId'], movieId = row['movieId'], tag = row['tag'], timestamp = row['timestamp'])
-                    db.session.add(tag)
-
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                dshape = discover(data)
+                tags = odo(data, destination, dshape=dshape)
+            elif get_filename(file_name) == 'links':
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                dshape = discover(data)
+                links = odo(data, destination, dshape=dshape)
             elif get_filename(file_name) == 'ratings':
-                for index,row in data.iterrows():
-                    rate = ratings(movieId = row['movieId'], rating = row['rating'])
-                    db.session.add(rate)
-
-            else:
-                for index,row in data.iterrows():
-                    link = links(movieId = row['movieId'], imdbId = row['imdbId'], tmdbId = row['tmdbId'])
-                    db.session.add(link)
+                data['index'] = list(range(1,data['movieId'].shape[0]+1))
+                dshape = discover(data)
+                ratings = odo(data, destination, dshape=dshape) 
+    return (movies,tags,links,ratings)
 '''
-            

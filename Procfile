@@ -1,1 +1,1 @@
-web: gunicorn STX:app --timeout 30 --keep-alive 30
+web: gunicorn STX:app
