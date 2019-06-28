@@ -57,6 +57,7 @@ def movie(movieId):
 
 @app.route("/db", methods=["POST"])
 def databaseb():
+
     try:
         url = ("http://files.grouplens.org/datasets/movielens/")
         database = request.get_json(force=True)["source"]
@@ -69,6 +70,7 @@ def databaseb():
 
 @app.after_request
 def log_the_status_code(response):
+    
     status = response.status
     logging.warning("status: %s" % status)
     return response
