@@ -1,1 +1,1 @@
-web: gunicorn STX:app
+web: gunicorn STX: app
